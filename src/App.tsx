@@ -1,35 +1,75 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const url = "https://api.telegram.org/bot7374565657:AAHltUNRTPeA0DiHoxT_4BCEappAGJ5htHg/";
+  const [fileIdArray, setFileIdArray] = useState<string[]>([]);
+  const [imageArray, setImageArray] = useState<string[]>([]);
+
+  // Fetch images
+  const fetchImage = async () => {
+    try {
+      // Get the updates from Telegram API
+      const response = await fetch(url + "getUpdates");
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const json = await response.json();
+
+      // Add unique file_ids to fileIdArray
+      const newFileIds: string[] = [];
+      for (let i = 0; i < json.result.length; i++) {
+        const fileId = json.result[i].message.document.file_id;
+        if (!fileIdArray.includes(fileId) && !newFileIds.includes(fileId)) {
+          newFileIds.push(fileId);
+        }
+      }
+      setFileIdArray((prevFileIdArray) => [...prevFileIdArray, ...newFileIds]);
+      // Fetch file details using file_ids
+      const newImages: string[] = [];
+      for (let i = 0 ; i < fileIdArray.length ; i++) {
+        const fileResponse = await fetch(`${url}getFile?file_id=${fileIdArray[0]}`);
+        const fileJson = await fileResponse.json();
+        const filePath = fileJson.result.file_path;
+        // Fetch image data using file path and convert to base64
+        // http://127.0.0.1:8000/test/getImage?file_path=documents%2Ffile_3.png
+        let encodedFilePath = encodeURIComponent(filePath)
+        newImages.push(`http://127.0.0.1:8000/test/getImage?file_path=${encodedFilePath}`);
+      }
+      setImageArray((prevImageArray) => [...prevImageArray, ...newImages]);
+
+    } catch (error:any) {
+      console.error("Error fetching images:", error.message);
+    }
+  };
+
+  // Log the updated image array for debugging purposes
+  useEffect(() => {
+    console.log(fileIdArray)
+    console.log("Image Array:", imageArray);
+  }, [imageArray]);
 
   return (
-    <>
+    <div>
+      <button onClick={fetchImage}>
+        Fetch Images
+      </button>
+
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {imageArray.length > 0 ? (
+          imageArray.map((img, index) => (
+            <img key={index} src={img} width={250} height={250} alt={`image-${index}`} />
+          ))
+        ) : (
+          <p>No images to display</p>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
+
 
 export default App

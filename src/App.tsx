@@ -19,7 +19,8 @@ function App() {
       // Add unique file_ids to fileIdArray
       const newFileIds: string[] = [];
       for (let i = 0; i < json.result.length; i++) {
-        const fileId = json.result[i].message.document.file_id;
+        var photo = json.result[i].message.photo
+        const fileId = photo[photo.length - 1].file_id;
         if (!fileIdArray.includes(fileId) && !newFileIds.includes(fileId)) {
           newFileIds.push(fileId);
         }

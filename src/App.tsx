@@ -34,7 +34,7 @@ function App() {
         // Fetch image data using file path and convert to base64
         // http://127.0.0.1:8000/test/getImage?file_path=documents%2Ffile_3.png
         let encodedFilePath = encodeURIComponent(filePath)
-        newImages.push(`http://127.0.0.1:8000/test/getImage?file_path=${encodedFilePath}`);
+        newImages.push(`https://vsnbrd-fastapi-46xiyyqes-addidras-projects.vercel.app/getImage?file_path=${encodedFilePath}`);
       }
       setImageArray((prevImageArray) => [...prevImageArray, ...newImages]);
 

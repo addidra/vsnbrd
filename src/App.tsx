@@ -29,7 +29,7 @@ function App() {
       // Fetch file details using file_ids
       const newImages: string[] = [];
       for (let i = 0 ; i < fileIdArray.length ; i++) {
-        const fileResponse = await fetch(`${url}getFile?file_id=${fileIdArray[0]}`);
+        const fileResponse = await fetch(`${url}getFile?file_id=${fileIdArray[i]}`);
         const fileJson = await fileResponse.json();
         const filePath = fileJson.result.file_path;
         // Fetch image data using file path and convert to base64

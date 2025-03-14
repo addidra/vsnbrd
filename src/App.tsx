@@ -5,7 +5,7 @@ function App() {
   const url = "https://api.telegram.org/bot7374565657:AAHltUNRTPeA0DiHoxT_4BCEappAGJ5htHg/";
   const [fileIdArray, setFileIdArray] = useState<string[]>([]);
   const [imageArray, setImageArray] = useState<string[]>([]);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
 
   const getUpdates = async() => {

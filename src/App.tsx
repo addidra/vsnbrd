@@ -29,9 +29,11 @@ function App() {
       const newFileIds: string[] = [];
       for (let i = 0; i < result.length; i++) {
         var photo = result[i].message.photo
-        const fileId = photo[photo.length - 1].file_id;
-        if (!fileIdArray.includes(fileId) && !newFileIds.includes(fileId)) {
-          newFileIds.push(fileId);
+        if (photo) {
+          const fileId = photo[photo.length - 1].file_id;
+          if (!fileIdArray.includes(fileId) && !newFileIds.includes(fileId)) {
+            newFileIds.push(fileId);
+          }
         }
       }
       setFileIdArray((prevFileIdArray) => [...prevFileIdArray, ...newFileIds]);

@@ -19,7 +19,7 @@ function App() {
             setUser(user.id.toString());
           }
         } catch (error) {
-          console.log("Error parsing user data: ",error)
+          setUser(`ERROR: ${error}`)
         }
       }
       // const userData = window.Telegram.WebApp.initDataUnsafe.user;

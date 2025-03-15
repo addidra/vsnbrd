@@ -11,7 +11,7 @@ function App() {
     // Ensure Telegram WebApp object is available
     if (window.Telegram && window.Telegram.WebApp) {
       const userData = window.Telegram.WebApp.initDataUnsafe.user;
-      console.log("User Data:", userData);
+      console.log("User Data:", userData,user);
       setUser(userData);
     }
   }, []);

@@ -1,33 +1,26 @@
 import { useEffect, useState } from 'react'
+import WebApp from "@twa-dev/sdk"
 import './App.css'
 import TelegramLogin from './components/TelegramLogin';
+
+interface UserData {
+  id: number;
+  first_name: string;
+  last_name?: string;
+  username?: string;
+  language_code: string;
+  is_premium?: boolean;
+}
 
 function App() {
   const backend = "https://vsnbrd-fastapi-addidras-projects.vercel.app/";
   const [imageArray, setImageArray] = useState<string[]>([]);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserData|null>(null);
 
   useEffect(() => {
-    // Ensure Telegram WebApp object is available
-    if (window.Telegram?.WebApp) {
-      const initDataString = window.Telegram.WebApp.initData
-      if(initDataString) {
-        const urlParams = new URLSearchParams(initDataString);
-        try {
-          const user = JSON.parse(urlParams.get("user") || '{}')
-          if (user.id) {
-            setUser(user.id.toString());
-          }
-        } catch (error) {
-          setUser(`ERROR: ${error}`)
-        }
+      if (WebApp.initDataUnsafe.user) {
+        setUser(WebApp.initDataUnsafe.user as UserData)
       }
-      // const userData = window.Telegram.WebApp.initDataUnsafe.user;
-      // console.log("User Data:", userData,user);
-      // setUser(userData);
-    }else{
-      setUser("No User")
-    }
   }, []);
 
 
@@ -71,13 +64,26 @@ function App() {
 
   // Log the updated image array for debugging purposes
   useEffect(() => {
-    console.log("Image Array:", imageArray);
+    if (imageArray.length){console.log("Image Array:", imageArray);}
   }, [imageArray]);
 
   return (
     <div>
       <TelegramLogin/>
-      <h1>This is the user logged in: { user }</h1>
+      {
+        user ? 
+        (<>
+          <h1>User Data:</h1>
+          <ul>
+            <li>{user.id}</li>
+            <li>{user.first_name}</li>
+            <li>{user.last_name}</li>
+            <li>{user.username}</li>
+            <li>{user.language_code}</li>
+          </ul>
+        </>):
+        (<h5>user doesnt exist</h5>)
+      }
       <button onClick={fetchImage}>
         Fetch Images
       </button>

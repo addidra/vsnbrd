@@ -14,7 +14,7 @@ interface UserData {
 
 function App() {
   const backend = "https://vsnbrd-fastapi-addidras-projects.vercel.app/";
-  const [imageArray, setImageArray] = useState<string[]>([]);
+  const [imageArray, setImageArray] = useState(new Set<string>());
   const [user, setUser] = useState<UserData|null>(null);
 
   useEffect(() => {
@@ -43,11 +43,11 @@ function App() {
   const setImages = async(filePaths: string[]) => {
     try {
       // Fetch file details using file_ids
-      const newImages: string[] = [];
+      const newImages = new Set<string>();
       for (let i = 0 ; i < filePaths.length ; i++) {
-        newImages.push(`${backend}/getImage?file_path=${filePaths[i]}`);
+        newImages.add(`${backend}/getImage?file_path=${filePaths[i]}`);
       }
-      setImageArray((prevImageArray) => [...prevImageArray, ...newImages]);
+      setImageArray((prevImageArray) => new Set([...prevImageArray, ...newImages]));
     } catch (error) {
       console.log(`Error in setImages function: ${error}`)
     }

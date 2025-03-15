@@ -43,9 +43,9 @@ function App() {
   const setImages = async(filePaths: string[]) => {
     try {
       // Fetch file details using file_ids
-      const newImages = new Set<string>();
+      const newImages: string[] = [];
       for (let i = 0 ; i < filePaths.length ; i++) {
-        newImages.add(`${backend}/getImage?file_path=${filePaths[i]}`);
+        newImages.push(`${backend}/getImage?file_path=${filePaths[i]}`);
       }
       setImageArray((prevImageArray) => new Set([...prevImageArray, ...newImages]));
     } catch (error) {

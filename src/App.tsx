@@ -47,7 +47,7 @@ function App() {
       for (let i = 0 ; i < filePaths.length ; i++) {
         newImages.push(`${backend}/getImage?file_path=${filePaths[i]}`);
       }
-      setImageArray((prevImageArray) => new Set([...prevImageArray, ...newImages]));
+      setImageArray(new Set(newImages));
     } catch (error) {
       console.log(`Error in setImages function: ${error}`)
     }

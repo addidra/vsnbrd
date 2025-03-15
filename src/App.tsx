@@ -5,6 +5,17 @@ import TelegramLogin from './components/TelegramLogin';
 function App() {
   const backend = "https://vsnbrd-fastapi-addidras-projects.vercel.app/";
   const [imageArray, setImageArray] = useState<string[]>([]);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // Ensure Telegram WebApp object is available
+    if (window.Telegram && window.Telegram.WebApp) {
+      const userData = window.Telegram.WebApp.initDataUnsafe.user;
+      console.log("User Data:", userData);
+      setUser(userData);
+    }
+  }, []);
+
 
   const getFilePaths = async (): Promise<string[]> => {
     try {

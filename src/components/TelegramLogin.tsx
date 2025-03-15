@@ -1,11 +1,5 @@
 import { useEffect } from "react";
 
-declare global {
-  interface Window {
-    onTelegramAuth: (user: any) => void;
-  }
-}
-
 const TelegramLogin = () => {
   useEffect(() => {
     // Define the Telegram authentication function

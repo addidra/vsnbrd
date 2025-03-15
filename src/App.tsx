@@ -63,6 +63,7 @@ function App() {
   return (
     <div>
       <TelegramLogin/>
+      <h1>This is the user logged in: { user }</h1>
       <button onClick={fetchImage}>
         Fetch Images
       </button>

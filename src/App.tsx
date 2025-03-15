@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import WebApp from "@twa-dev/sdk"
 import './App.css'
-import TelegramLogin from './components/TelegramLogin';
+// import TelegramLogin from './components/TelegramLogin';
 
 interface UserData {
   id: number;
@@ -26,7 +26,7 @@ function App() {
 
   const getFilePaths = async (): Promise<string[]> => {
     try {
-        const response = await fetch(`${backend}getFilePaths`);
+        const response = await fetch(`${backend}getFilePaths?user_id=${user?.id}`);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -69,7 +69,6 @@ function App() {
 
   return (
     <div>
-      <TelegramLogin/>
       {
         user ? 
         (<>

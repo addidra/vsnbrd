@@ -9,10 +9,24 @@ function App() {
 
   useEffect(() => {
     // Ensure Telegram WebApp object is available
-    if (window.Telegram && window.Telegram.WebApp) {
-      const userData = window.Telegram.WebApp.initDataUnsafe.user;
-      console.log("User Data:", userData,user);
-      setUser(userData);
+    if (window.Telegram?.WebApp) {
+      const initDataString = window.Telegram.WebApp.initData
+      if(initDataString) {
+        const urlParams = new URLSearchParams(initDataString);
+        try {
+          const user = JSON.parse(urlParams.get("user") || '{}')
+          if (user.id) {
+            setUser(user.id.toString());
+          }
+        } catch (error) {
+          console.log("Error parsing user data: ",error)
+        }
+      }
+      // const userData = window.Telegram.WebApp.initDataUnsafe.user;
+      // console.log("User Data:", userData,user);
+      // setUser(userData);
+    }else{
+      setUser("No User")
     }
   }, []);
 

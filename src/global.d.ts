@@ -15,6 +15,7 @@ declare global {
                         hash?: string;
                     };
                 };
+                initData: string;
                 expand: () => void;
                 close: () => void;
             };

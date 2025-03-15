@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import TelegramLogin from './components/TelegramLogin';
 
 function App() {
   const backend = "https://vsnbrd-fastapi-addidras-projects.vercel.app/";
@@ -50,6 +51,7 @@ function App() {
 
   return (
     <div>
+      <TelegramLogin/>
       <button onClick={fetchImage}>
         Fetch Images
       </button>
